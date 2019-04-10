@@ -1,6 +1,6 @@
 Django S3 File Uploads
 ===================
-[![Build Status](https://travis-ci.com/dabapps/s3_file_uploads.svg?token=apzD3FKHpTNKHAtAu9xC&branch=master)](https://travis-ci.com/dabapps/s3_file_uploads)
+[![Build Status](https://travis-ci.com/dabapps/django-s3-file-uploads.svg?token=k7ApnEQbpXLoWVm5Bc9o&branch=master)](https://travis-ci.com/dabapps/django-s3-file-uploads)
 
 Upload files to AWS - straight from the browser
 
