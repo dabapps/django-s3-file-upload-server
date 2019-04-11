@@ -17,9 +17,8 @@ author_email = 'engineering@dabapps.com'
 license = 'BSD'
 install_requires = [
     'boto3==1.9.129',
-    'Django>=2.2',
-    'django-fsm==2.6.0',
-    'model_mommy==1.6.0',
+    'Django>=1.11',
+    'django-fsm==2.6.0'
 ]
 
 long_description = ''
