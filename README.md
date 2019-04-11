@@ -41,9 +41,8 @@ You will need to create an AWS bucket and set the following env variables
 ```
 AWS_ACCESS_KEY_ID
 AWS_SECRET_ACCESS_KEY
+S3_BUCKET_NAME
 ```
-
-The variable `S3_BUCKET_NAME` can be set in `etc/environments/`
 
 ## Usage
 The flow to be able to upload files from the browser straight to AWS is as follows.
