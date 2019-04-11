@@ -7,11 +7,6 @@ from unittest.mock import patch
 from s3_file_uploads.models import UploadedFile
 
 
-def refresh_instance(instance):
-    # refresh database model instance
-    return instance.__class__.objects.get(id=instance.id)
-
-
 class BaseTestCase(TestCase):
     def setUp(self):
         super().setUp()
@@ -45,7 +40,7 @@ class UploadedFileTestCase(BaseTestCase):
         self.assertEqual(new_file.file_upload_state, UploadedFile.UPLOAD_STATES.AWAIT_COMPLETE)
         response = self.api_client.post(response.data['complete_url'])
         self.assertEqual(response.status_code, 200)
-        new_file = refresh_instance(new_file)
+        new_file.refresh_from_db()
         self.assertEqual(new_file.file_upload_state, UploadedFile.UPLOAD_STATES.COMPLETED)
 
 
@@ -61,7 +56,7 @@ class UploadedFileUploadCompleteViewTestCase(BaseTestCase):
         self.api_client.post(reverse('s3_file_uploads:upload-file-complete', kwargs={
             'file_id': str(self.uploaded_file.id)
         }))
-        self.uploaded_file = refresh_instance(self.uploaded_file)
+        self.uploaded_file.refresh_from_db()
         self.assertEqual(self.uploaded_file.file_upload_state, UploadedFile.UPLOAD_STATES.COMPLETED)
 
     def test_cant_complete_in_wrong_state(self):
