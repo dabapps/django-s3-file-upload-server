@@ -50,7 +50,7 @@ The flow to be able to upload files from the browser straight to AWS is as follo
 ![Flow S3 file uploads](images/flow-s3-file-uploads.png)
 
 This repo will give you access to some useful enpoints.
-To make these enpoints available, add the following to the `urlpatterns`
+To make these endpoints available, add the following to the `urlpatterns`
 ```
   url(r'^s3_file_uploads/', view=include('s3_file_uploads.urls'))
 ```
