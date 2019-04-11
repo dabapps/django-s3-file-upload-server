@@ -4,6 +4,9 @@ Django S3 File Uploads
 
 Upload files to AWS - straight from the browser
 
+THIS IS A WORK IN PROGRESS - CURRENTLY FOR INTERNAL USE AT DABAPPS
+(We will also abstract out the work that needs to be done on the frontend to make the flow complete)
+
 ## Getting Started
 
 ### Installation
@@ -38,30 +41,21 @@ You will need to create an AWS bucket and set the following env variables
 ```
 AWS_ACCESS_KEY_ID
 AWS_SECRET_ACCESS_KEY
+S3_BUCKET_NAME
 ```
-
-These can be applied with catfish e.g.
-
-```shell
-$ ctf project config --set KEY=VALUE
-```
-
-The variable `S3_BUCKET_NAME` can be set in `etc/environments/`
 
 ## Usage
 The flow to be able to upload files from the browser straight to AWS is as follows.
 ![Flow S3 file uploads](images/flow-s3-file-uploads.png)
 
 This repo will give you access to some useful enpoints.
-To make these enpoints available, go to `project/urls.py` and add the following to the `api_url_patterns`
+To make these endpoints available, add the following to the `urlpatterns`
 ```
   url(r'^s3_file_uploads/', view=include('s3_file_uploads.urls'))
 ```
 This will give you access to
-  - `/api/s3_file_uploads/` for getting a url to upload files to AWS to
-  - `/api/s3_file_uploads/<file_id>/complete/` for marking an upload as complete
-  - `/api/s3_file_uploads/<file_id>/` for getting an AWS endpoint to download files from
+  - `/s3_file_uploads/` for getting a url to upload files to AWS to
+  - `/s3_file_uploads/<file_id>/complete/` for marking an upload as complete
+  - `/s3_file_uploads/<file_id>/` for getting an AWS endpoint to download files from
 
-**Make sure to run `ctf project run manage.py migrate` to create the `UploadedFile` table in your database.**
-
-We will also abstract out the work that needs to be done on the frontend to make the flow complete. More instructions to follow...
+**Make sure to run migrations to create the `UploadedFile` table in your database.**
