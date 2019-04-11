@@ -59,3 +59,8 @@ This will give you access to
   - `/s3_file_uploads/<file_id>/` for getting an AWS endpoint to download files from
 
 **Make sure to run migrations to create the `UploadedFile` table in your database.**
+
+
+## Code of conduct
+
+For guidelines regarding the code of conduct when contributing to this repository please review [https://www.dabapps.com/open-source/code-of-conduct/](https://www.dabapps.com/open-source/code-of-conduct/)
