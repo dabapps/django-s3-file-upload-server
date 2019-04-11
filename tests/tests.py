@@ -4,7 +4,6 @@ from model_mommy import mommy
 from rest_framework.test import APIClient
 from unittest.mock import patch
 
-# from project.documents.tests import FileCleanupMixin
 from s3_file_uploads.models import UploadedFile
 
 

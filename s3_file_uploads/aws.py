@@ -23,7 +23,7 @@ class S3AssetHandler:
             self.id,
             Fields={},
             Conditions=[
-                ["content-length-range", 1, settings.MAX_FILE_UPLOAD_SIZE],  # conv from MB into B
+                ["content-length-range", 1, settings.MAX_FILE_UPLOAD_SIZE],
             ],
             ExpiresIn=expiry
         )
