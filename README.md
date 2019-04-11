@@ -4,6 +4,9 @@ Django S3 File Uploads
 
 Upload files to AWS - straight from the browser
 
+THIS IS A WORK IN PROGRESS - CURRENTLY FOR INTERNAL USE AT DABAPPS
+(We will also abstract out the work that needs to be done on the frontend to make the flow complete)
+
 ## Getting Started
 
 ### Installation
