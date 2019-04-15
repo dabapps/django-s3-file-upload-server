@@ -51,12 +51,12 @@ The flow to be able to upload files from the browser straight to AWS is as follo
 This repo will give you access to some useful enpoints.
 To make these endpoints available, add the following to the `urlpatterns`
 ```
-  url(r'^s3_file_uploads/', view=include('s3_file_uploads.urls'))
+  url(r'^s3-file-uploads/', view=include('s3_file_uploads.urls'))
 ```
 This will give you access to
-  - `/s3_file_uploads/` for getting a url to upload files to AWS to
-  - `/s3_file_uploads/<file_id>/complete/` for marking an upload as complete
-  - `/s3_file_uploads/<file_id>/` for getting an AWS endpoint to download files from
+  - `/s3-file-uploads/` for getting a url to upload files to AWS to
+  - `/s3-file-uploads/<file_id>/complete/` for marking an upload as complete
+  - `/s3-file-uploads/<file_id>/` for getting an AWS endpoint to download files from
 
 **Make sure to run migrations to create the `UploadedFile` table in your database.**
 
