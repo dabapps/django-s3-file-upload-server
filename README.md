@@ -77,6 +77,11 @@ class Llama(models.Model):
     )
 ```
 
+Now we could setup some endpoints to `create/update` a `Llama` instance for example.
+
+After a file has been uploaded to S3 by the client, the frontend will have the `file_id` and could use this
+to `create/update` the `Llama` instance.
+
 ### Downloading a file
 As noted above in the list of available endpoints, we can do a GET request to`/s3-file-uploads/<file_id>/` to get the AWS endpoint to download a file from.
 This endpoint is useful when the frontend knows the `file_id` and wants to retreive a single file.
