@@ -8,9 +8,9 @@ import os
 import sys
 
 
-name = 'django-s3-file-uploads'
+name = 'django-s3-file-upload'
 package = 's3_file_uploads'
-description = ''
+description = 'Upload files from the browser to S3 - server side implementation'
 url = 'https://www.dabapps.com'
 author = 'DabApps'
 author_email = 'engineering@dabapps.com'
@@ -21,7 +21,14 @@ install_requires = [
     'django-fsm==2.6.0'
 ]
 
-long_description = ''
+long_description = """
+    Endpoints for
+        - getting a signed url to upload files from the browser straight to S3
+        - marking an upload as complete
+        - getting an S3 endpoint to download files from
+    """
+
+
 
 def get_version(package):
     """

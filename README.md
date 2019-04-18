@@ -1,11 +1,10 @@
-Django S3 File Uploads
+Django S3 File Upload Server
 ===================
-[![Build Status](https://travis-ci.com/dabapps/django-s3-file-uploads.svg?token=k7ApnEQbpXLoWVm5Bc9o&branch=master)](https://travis-ci.com/dabapps/django-s3-file-uploads)
+[![Build Status](https://travis-ci.com/dabapps/django-s3-file-upload-server.svg?token=k7ApnEQbpXLoWVm5Bc9o&branch=master)](https://travis-ci.com/dabapps/django-s3-file-upload-server)
 
-Upload files to AWS - straight from the browser
+Upload files from the browser to S3 - server side implementation
 
-THIS IS A WORK IN PROGRESS - CURRENTLY FOR INTERNAL USE AT DABAPPS
-(We will also abstract out the work that needs to be done on the frontend to make the flow complete)
+For the client side implementation see [github.com/dabapps/django-s3-file-upload-client](https://github.com/dabapps/django-s3-file-upload-client)
 
 ## Getting Started
 
@@ -13,7 +12,7 @@ THIS IS A WORK IN PROGRESS - CURRENTLY FOR INTERNAL USE AT DABAPPS
 
 Add the following to `requirement.txt`
 
-    git+git://github.com/dabapps/django-s3-file-uploads.git
+    git+git://github.com/dabapps/django-s3-file-upload-server.git
 
 
 Add the following to your `settings.py`
@@ -32,7 +31,9 @@ Add the following to your `settings.py`
     AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID')
     AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY')
 
-Make sure to set a `MAX_FILE_UPLOAD_SIZE` in `settings.py` as well.
+**Please make sure to**
+  - **set a `MAX_FILE_UPLOAD_SIZE` in `settings.py`.**
+  - **run migrations to create the `UploadedFile` table in your database.**
 
 ### Setup environment variables
 
@@ -54,11 +55,40 @@ To make these endpoints available, add the following to the `urlpatterns`
   url(r'^s3-file-uploads/', view=include('s3_file_uploads.urls'))
 ```
 This will give you access to
-  - `/s3-file-uploads/` for getting a url to upload files to AWS to
-  - `/s3-file-uploads/<file_id>/complete/` for marking an upload as complete
-  - `/s3-file-uploads/<file_id>/` for getting an AWS endpoint to download files from
+  - POST `/s3-file-uploads/` for getting a url to upload files to AWS to
+  - POST `/s3-file-uploads/<file_id>/complete/` for marking an upload as complete
+  - GET `/s3-file-uploads/<file_id>/` for getting an AWS endpoint to download files from
 
-**Make sure to run migrations to create the `UploadedFile` table in your database.**
+Hitting these endpoints will `create`, `update` and `retrieve` instances of `UploadedFile` under the hood.
+
+For an abstraction of the client side implementation of uploading a file from the browser straight to S3, see [github.com/dabapps/django-s3-file-upload-client](https://github.com/dabapps/django-s3-file-upload-client)
+
+## Examples
+Now that we have the table `UploadedFile` available to us, which stores an `id`, `file_key`, `filename` and `file_upload_state`, we might want to link this to a model in our project as follows.
+
+```
+from django.db import models
+from s3_file_uploads.models import UploadedFile
+
+class Llama(models.Model):
+    file = models.OneToOneField(
+        UploadedFile,
+        on_delete=models.CASCADE
+    )
+```
+
+Now we could setup some endpoints to `create/update` a `Llama` instance for example.
+
+After a file has been uploaded to S3 by the client, the frontend will have the `file_id` and could use this
+to `create/update` the `Llama` instance.
+
+### Downloading a file
+As noted above in the list of available endpoints, we can do a GET request to`/s3-file-uploads/<file_id>/` to get the AWS endpoint to download a file from.
+This endpoint is useful when the frontend knows the `file_id` and wants to retreive a single file.
+
+We might also want to setup an endpoint to retrieve all `Llama` data and include the download url for the `file`.
+Say we have an instance of `Llama` called `llama`. All we need to do is call the model method `llama.get_download_url()` or `llama.get_view_url()` which returns the S3 url including access keys where the file can be downloaded or viewed from.
+Then the serializer could return the `download_url` or `view_url` to the frontend.
 
 
 ## Code of conduct
