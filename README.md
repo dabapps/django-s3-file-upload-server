@@ -88,6 +88,7 @@ This endpoint is useful when the frontend knows the `file_id` and wants to retre
 
 We might also want to setup an endpoint to retrieve all `Llama` data and include the download url for the `file`.
 Say we have an instance of `Llama` called `llama`. All we need to do is call the model method `llama.get_download_url()` or `llama.get_view_url()` which returns the S3 url including access keys where the file can be downloaded or viewed from.
+Then the serializer could return the `download_url` or `view_url` to the frontend.
 
 
 ## Code of conduct
