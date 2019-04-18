@@ -4,7 +4,7 @@ Django S3 File Upload Server
 
 Upload files from the browser to S3 - server side implementation
 
-For the client side implementation, see [github.com/dabapps/django-s3-file-upload-client](https://github.com/dabapps/django-s3-file-upload-client)
+For the client side implementation see [github.com/dabapps/django-s3-file-upload-client](https://github.com/dabapps/django-s3-file-upload-client)
 
 ## Getting Started
 
@@ -61,7 +61,7 @@ This will give you access to
 
 Hitting these endpoints will `create`, `update` and `retrieve` instances of `UploadedFile` under the hood.
 
-For an abstraction of uploading a file from the browser straight to S3, see [github.com/dabapps/django-s3-file-upload-client](https://github.com/dabapps/django-s3-file-upload-client)
+For an abstraction of the client side implementation of uploading a file from the browser straight to S3, see [github.com/dabapps/django-s3-file-upload-client](https://github.com/dabapps/django-s3-file-upload-client)
 
 ## Examples
 Now that we have the table `UploadedFile` available to us, which stores an `id`, `file_key`, `filename` and `file_upload_state`, we might want to link this to a model in our project as follows.
