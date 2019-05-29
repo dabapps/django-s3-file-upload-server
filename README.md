@@ -13,7 +13,7 @@ For the client side implementation see [github.com/dabapps/django-s3-file-upload
 
 Add the following to `requirement.txt`
 
-    django-s3-file-upload==0.0.1
+    django-s3-file-upload==0.0.2
 
 
 Add the following to `settings.py`
