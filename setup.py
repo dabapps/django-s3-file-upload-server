@@ -20,11 +20,13 @@ install_requires = [
     'Django>=1.11',
     'django-fsm==2.6.0'
 ]
-
+long_description_content_type="text/markdown",
 long_description = """
-    Endpoints for
-        - getting a signed url to upload files from the browser straight to S3
-        - marking an upload as complete
+    Server side implementation for uploading files straight from the browser to S3.
+
+    Package provides endpoints for
+        - getting an S3 signed url to upload files to
+        - marking an upload as complete on the server
         - getting an S3 endpoint to download files from
     """
 

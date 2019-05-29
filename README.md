@@ -1,6 +1,7 @@
 Django S3 File Upload Server
 ===================
 [![Build Status](https://travis-ci.com/dabapps/django-s3-file-upload-server.svg?token=k7ApnEQbpXLoWVm5Bc9o&branch=master)](https://travis-ci.com/dabapps/django-s3-file-upload-server)
+[![pypi release](https://img.shields.io/pypi/v/django-s3-file-upload.svg)](https://pypi.python.org/pypi/django-s3-file-upload)
 
 Upload files from the browser to S3 - server side implementation
 
@@ -12,10 +13,10 @@ For the client side implementation see [github.com/dabapps/django-s3-file-upload
 
 Add the following to `requirement.txt`
 
-    git+git://github.com/dabapps/django-s3-file-upload-server.git
+    django-s3-file-upload==0.0.2
 
 
-Add the following to your `settings.py`
+Add the following to `settings.py`
 
     INSTALLED_APPS = (
         ...
@@ -60,6 +61,8 @@ This will give you access to
   - GET `/s3-file-uploads/<file_id>/` for getting an AWS endpoint to download files from
 
 Hitting these endpoints will `create`, `update` and `retrieve` instances of `UploadedFile` under the hood.
+
+**Please note that meta data can optionally be passed in at the initial post request, such as `file_key` and `filename`.**
 
 For an abstraction of the client side implementation of uploading a file from the browser straight to S3, see [github.com/dabapps/django-s3-file-upload-client](https://github.com/dabapps/django-s3-file-upload-client)
 
