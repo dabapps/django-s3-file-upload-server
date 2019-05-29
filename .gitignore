@@ -2,6 +2,7 @@
 *.db
 dist/
 env/
+build/
 *.egg-info/
 
 .DS_Store
