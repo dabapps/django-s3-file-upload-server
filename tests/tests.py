@@ -21,7 +21,7 @@ class BaseTestCase(TestCase):
     def setUp(self):
         super().setUp()
         self.api_client = APIClient()
-        self.user =mommy.make(
+        self.user = mommy.make(
             User,
             username=self.EMAIL,
         )
