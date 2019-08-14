@@ -15,9 +15,22 @@ class UploadedFileTestSerialiser(serializers.Serializer):
 
 
 class BaseTestCase(TestCase):
+    EMAIL = 'dogs@llamas.com'
+    PASSWORD = 'Reelsecure123'
+
     def setUp(self):
         super().setUp()
         self.api_client = APIClient()
+        self.user =mommy.make(
+            User,
+            username=self.EMAIL,
+        )
+        self.user.set_password(self.PASSWORD)
+        self.user.save()
+        self.api_client.login(
+            username=self.EMAIL,
+            password=self.PASSWORD
+        )
 
 
 class UploadedFileTestCase(BaseTestCase):
@@ -32,6 +45,7 @@ class UploadedFileTestCase(BaseTestCase):
         self.assertEqual(UploadedFile.objects.count(), 1)
         new_file = UploadedFile.objects.first()
         self.assertEqual(new_file.file_key, '')
+        self.assertEqual(new_file.user, self.user)
         self.assertEqual(response.data['id'], str(new_file.id))
         self.assertEqual(response.data['upload_form']['url'], "https://cat.com/a/b/")
         self.assertEqual(response.data['file'], "https://cat.com/b/a/")
