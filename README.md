@@ -34,7 +34,6 @@ Add the following to `settings.py`
 
 **Please make sure to**
   - **set a `MAX_FILE_UPLOAD_SIZE` in `settings.py`.**
-  - **set a `AUTH_USER_MODEL` in `settings.py`.**
   - **run migrations to create the `UploadedFile` table in your database.**
 
 ### Setup environment variables
