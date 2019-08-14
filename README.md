@@ -67,7 +67,7 @@ Hitting these endpoints will `create`, `update` and `retrieve` instances of `Upl
 For an abstraction of the client side implementation of uploading a file from the browser straight to S3, see [github.com/dabapps/django-s3-file-upload-client](https://github.com/dabapps/django-s3-file-upload-client)
 
 ## Examples
-Now that we have the table `UploadedFile` available to us, which stores an `id`, `file_key`, `filename` and `file_upload_state`, we might want to link this to a model in our project as follows.
+Now that we have the table `UploadedFile` available to us, which stores an `id`, `file_key`, `filename`, `file_upload_state` and the `user` that requested the file upload, we might want to link this to a model in our project as follows.
 
 ```
 from django.db import models
@@ -81,6 +81,8 @@ class Llama(models.Model):
 ```
 
 Now we could setup some endpoints to `create/update` a `Llama` instance for example.
+
+We have included in `fields.py` in the project a field util called `UploadedFilePrimaryKeyRelatedField`. This may be used in the create serializer for your endpoint to ensure only users that have uploaded the file are able to assign this to a custom model.
 
 After a file has been uploaded to S3 by the client, the frontend will have the `file_id` and could use this
 to `create/update` the `Llama` instance.
