@@ -29,7 +29,7 @@ class UploadedFile(ConcurrentTransitionMixin, models.Model):
     user = models.ForeignKey(
         USER_MODEL,
         related_name='uploaded_files',
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         null=True
     )
 
