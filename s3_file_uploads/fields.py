@@ -1,8 +1,11 @@
 from rest_framework import serializers
 
+from s3_file_uploads.models import UploadedFile
+
+
 class UploadedFilePrimaryKeyRelatedField(serializers.PrimaryKeyRelatedField):
 
-    def __init__(self, **kwargs):
+    def get_queryset(self):
         request = self.context['request']
-        self.queryset = UploadedFile.objects.filter(user=request.user)
-        super(PrimaryKeyRelatedField, self).__init__(**kwargs)
+        return UploadedFile.objects.filter(user=request.user)
+
