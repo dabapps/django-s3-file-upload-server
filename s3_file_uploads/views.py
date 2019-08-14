@@ -14,7 +14,8 @@ class UploadedFileCreateView(generics.CreateAPIView):
         return UploadedFile.objects.filter(user=self.request.user)
 
     def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
+        serializer_data = {**request.data, 'user': request.user.id}
+        serializer = self.get_serializer(data=serializer_data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)

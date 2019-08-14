@@ -17,7 +17,8 @@ class UploadedFileSerializer(serializers.ModelSerializer):
             'file',
             'filename',
             'file_name',
-            'file_path'
+            'file_path',
+            'user',
         ]
         read_only_fields = [
             'id',

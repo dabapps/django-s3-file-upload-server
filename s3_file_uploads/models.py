@@ -1,10 +1,14 @@
 import uuid
+from django.contrib.auth import get_user_model
 from django.db import models
 from django.urls import reverse
 from django_fsm import FSMField, transition, ConcurrentTransitionMixin
 from model_utils import Choices
 
 from s3_file_uploads.aws import S3AssetHandler
+
+
+USER_MODEL = get_user_model()
 
 
 class UploadedFile(ConcurrentTransitionMixin, models.Model):
@@ -21,6 +25,13 @@ class UploadedFile(ConcurrentTransitionMixin, models.Model):
     file_key = models.CharField(max_length=255, blank=True)
     filename = models.CharField(max_length=255, blank=True)
     file_upload_state = FSMField(default=UPLOAD_STATES.NEW)
+
+    user = models.ForeignKey(
+        USER_MODEL,
+        related_name='uploaded_files',
+        on_delete=models.SET_NULL,
+        null=True
+    )
 
     class Meta:
         ordering = ['-created']
