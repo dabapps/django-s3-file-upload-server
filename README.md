@@ -13,7 +13,7 @@ For the client side implementation see [github.com/dabapps/django-s3-file-upload
 
 Add the following to `requirement.txt`
 
-    django-s3-file-upload==0.0.2
+    django-s3-file-upload==0.0.3
 
 
 Add the following to `settings.py`
@@ -34,6 +34,7 @@ Add the following to `settings.py`
 
 **Please make sure to**
   - **set a `MAX_FILE_UPLOAD_SIZE` in `settings.py`.**
+  - **set a `AUTH_USER_MODEL` in `settings.py`.**
   - **run migrations to create the `UploadedFile` table in your database.**
 
 ### Setup environment variables
