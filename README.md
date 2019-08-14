@@ -82,7 +82,7 @@ class Llama(models.Model):
 
 Now we could setup some endpoints to `create/update` a `Llama` instance for example.
 
-We have included in `fields.py` in the project a field util called `UploadedFilePrimaryKeyRelatedField`. This may be used in the create serializer for your endpoint to ensure only users that have uploaded the file are able to assign this to a custom model.
+If needed, you can import a util `UploadedFilePrimaryKeyRelatedField ` from `s3_file_uploads.fields`. This may be used in the create serializer for your endpoint to ensure only users that have uploaded the file are able to assign this to a custom model.
 
 After a file has been uploaded to S3 by the client, the frontend will have the `file_id` and could use this
 to `create/update` the `Llama` instance.
