@@ -1,6 +1,5 @@
 import uuid
-from django.conf import settings
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.db import models
 from django.urls import reverse
 from django_fsm import FSMField, transition, ConcurrentTransitionMixin
@@ -9,7 +8,7 @@ from model_utils import Choices
 from s3_file_uploads.aws import S3AssetHandler
 
 
-USER_MODEL = getattr(settings, 'AUTH_USER_MODEL', User)
+USER_MODEL = get_user_model()
 
 
 class UploadedFile(ConcurrentTransitionMixin, models.Model):
