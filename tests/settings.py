@@ -2,10 +2,16 @@ DATABASES = {"default": {"ENGINE": "django.db.backends.sqlite3", "NAME": ":memor
 
 INSTALLED_APPS = [
     'django.contrib.auth',
+    'django.contrib.sessions',
     'django.contrib.contenttypes',
 
     'tests',
     's3_file_uploads',
+]
+
+MIDDLEWARE = [
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
 ]
 
 TEMPLATES = [
