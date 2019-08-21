@@ -28,7 +28,3 @@ AWS_ACCESS_KEY_ID = "AWS_ACCESS_KEY_ID"
 AWS_SECRET_ACCESS_KEY = "AWS_SECRET_ACCESS_KEY"
 
 MAX_FILE_UPLOAD_SIZE = 10 * 1024 * 1024  # 10 MB
-
-ACCESS_CONTROL_TYPES = ['private', 'public-read', 'public-read-write', 'authenticated-read']
-
-ACL_KEY = 'acl'
