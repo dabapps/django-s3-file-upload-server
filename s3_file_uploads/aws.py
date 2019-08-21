@@ -15,7 +15,7 @@ class S3AssetHandler:
         self.id = str(id)  # coerce just in case someone passes in a UUID()
         self.s3 = boto3.client('s3')
 
-    def get_upload_form(self, expiry=UPLOAD_ENDPOINT_EXPIRES) -> dict:
+    def get_upload_form(self, acl_type=None, expiry=UPLOAD_ENDPOINT_EXPIRES) -> dict:
         # NOTE: Used because it's the only way to enforce upload
         #       size on S3.
         return self.s3.generate_presigned_post(
@@ -23,6 +23,7 @@ class S3AssetHandler:
             self.id,
             Fields={},
             Conditions=[
+                acl_type or {'acl': 'private'},
                 ["content-length-range", 1, settings.MAX_FILE_UPLOAD_SIZE],
             ],
             ExpiresIn=expiry

@@ -47,14 +47,14 @@ class UploadedFile(ConcurrentTransitionMixin, models.Model):
     def asset_handler(self):
         return S3AssetHandler(self.get_file_key())
 
-    def get_upload_form(self) -> dict:
-        form = self.trans_get_upload_form()
+    def get_upload_form(self, *args, **kwargs) -> dict:
+        form = self.trans_get_upload_form(*args, **kwargs)
         self.save()
         return form
 
     @transition(field=file_upload_state, source=[UPLOAD_STATES.NEW, UPLOAD_STATES.AWAIT_COMPLETE], target=UPLOAD_STATES.AWAIT_COMPLETE)
-    def trans_get_upload_form(self) -> dict:
-        return self.asset_handler.get_upload_form()
+    def trans_get_upload_form(self, *args, **kwargs) -> dict:
+        return self.asset_handler.get_upload_form(*args, **kwargs)
 
     def completed_upload(self) -> None:
         self.trans_completed_upload()
