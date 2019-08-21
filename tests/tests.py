@@ -92,7 +92,7 @@ class UploadedFileTestCase(BaseTestCase):
         response = self.api_client.post(reverse('s3_file_uploads:upload-file-create'), data=acl_type)
         self.assertEqual(
             response.data,
-            {'acl': [ErrorDetail(string='invalid-acl-type is not a valid acl type', code='invalid')]}
+            {'acl': [ErrorDetail(string='"invalid-acl-type" is not a valid choice.', code='invalid_choice')]}
         )
 
     @patch('boto3.client')

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from s3_file_uploads.constants import ACCESS_CONTROL_TYPES
+from s3_file_uploads.constants import ACCESS_CONTROL_TYPES, PRIVATE
 from s3_file_uploads.models import UploadedFile
 
 
@@ -31,9 +31,4 @@ class UploadedFileSerializer(serializers.ModelSerializer):
         ]
 
 class AccessControlListSerializer(serializers.Serializer):
-    acl = serializers.CharField(required=False)
-
-    def validate_acl(self, value):
-        if value not in ACCESS_CONTROL_TYPES:
-            raise serializers.ValidationError('{acl} is not a valid acl type'.format(acl=value))
-        return value
+    acl = serializers.ChoiceField(choices=ACCESS_CONTROL_TYPES, default=PRIVATE)

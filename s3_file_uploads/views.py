@@ -25,7 +25,7 @@ class UploadedFileCreateView(generics.CreateAPIView):
         uploaded_file = file_serializer.instance
         uploaded_file_data = UploadedFileSerializer(instance=uploaded_file).data
         uploaded_file_data['upload_form'] = uploaded_file.get_upload_form(
-            acl_type=acl_serialiser.validated_data
+            acl_type=acl_serialiser.validated_data['acl']
         )
         uploaded_file_data['complete_url'] = request.build_absolute_uri(
             reverse('s3_file_uploads:upload-file-complete', args=(str(uploaded_file.id),))
