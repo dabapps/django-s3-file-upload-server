@@ -64,12 +64,13 @@ Hitting these endpoints will `create`, `update` and `retrieve` instances of `Upl
 
 **Please note that meta data can optionally be passed in at the initial post request, such as `file_key` and `filename` and the `acl` type which will define the access control in S3.**
 
-## ACL Types
-
+The possible `acl` fields are (with the default as `private` if none are passed in the request data):
+```
 PRIVATE = 'private'
 PUBLIC_READ = 'public-read'
 PUBLIC_READ_WRITE = 'public-read-write'
 AUTHENTICATED_READ = 'authenticated-read'
+```
 
 For an abstraction of the client side implementation of uploading a file from the browser straight to S3, see [github.com/dabapps/django-s3-file-upload-client](https://github.com/dabapps/django-s3-file-upload-client)
 
