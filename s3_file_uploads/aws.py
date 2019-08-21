@@ -5,6 +5,7 @@ Also get short term view urls.
 from django.conf import settings
 import boto3
 from io import BytesIO
+from s3_file_uploads.constants import PRIVATE, ACL_KEY
 
 
 class S3AssetHandler:
@@ -23,7 +24,7 @@ class S3AssetHandler:
             self.id,
             Fields={},
             Conditions=[
-                acl_type or {'acl': 'private'},
+                acl_type or {ACL_KEY: PRIVATE},
                 ["content-length-range", 1, settings.MAX_FILE_UPLOAD_SIZE],
             ],
             ExpiresIn=expiry
