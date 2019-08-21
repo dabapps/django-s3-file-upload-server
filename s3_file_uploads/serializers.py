@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from s3_file_uploads.constants import ACCESS_CONTROL_TYPES, PRIVATE
 from s3_file_uploads.models import UploadedFile
 
 
@@ -28,3 +29,6 @@ class UploadedFileSerializer(serializers.ModelSerializer):
             'file_path',
             'file_key'
         ]
+
+class AccessControlListSerializer(serializers.Serializer):
+    acl = serializers.ChoiceField(choices=ACCESS_CONTROL_TYPES, default=PRIVATE)

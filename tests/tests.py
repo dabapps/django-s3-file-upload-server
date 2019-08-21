@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 from django.urls import reverse
 from model_mommy import mommy
+from rest_framework.exceptions import ErrorDetail
 from rest_framework.test import APIClient
 from rest_framework import serializers
 from unittest.mock import patch, MagicMock
@@ -51,6 +52,48 @@ class UploadedFileTestCase(BaseTestCase):
         self.assertEqual(response.data['file'], "https://cat.com/b/a/")
         self.assertEqual(new_file.get_view_url(), response.data['file'])
         self.assertEqual(new_file.get_upload_form(), response.data['upload_form'])
+
+    @patch('boto3.client')
+    def test_complete_url_with_acl_data(self, boto_client_mock):
+        acl_type = {'acl': 'public-read'}
+        boto_client_mock.return_value.generate_presigned_url.return_value = "https://cat.com/b/a/"
+        boto_client_mock.return_value.generate_presigned_post.return_value = "https://cat.com/b/a/"
+        response = self.api_client.post(reverse('s3_file_uploads:upload-file-create'), data=acl_type)
+        new_file = UploadedFile.objects.first()
+        boto_client_mock.return_value.generate_presigned_post.assert_called_with(
+            'AWS_BUCKET_NAME',
+            str(new_file.id),
+            Conditions=[acl_type, ['content-length-range', 1, 10485760]],
+            ExpiresIn=300,
+            Fields={}
+        )
+        self.assertEqual(new_file.get_upload_form(), response.data['upload_form'])
+
+    @patch('boto3.client')
+    def test_complete_url_with_no_acl_data(self, boto_client_mock):
+        boto_client_mock.return_value.generate_presigned_url.return_value = "https://cat.com/b/a/"
+        boto_client_mock.return_value.generate_presigned_post.return_value = "https://cat.com/b/a/"
+        response = self.api_client.post(reverse('s3_file_uploads:upload-file-create'))
+        new_file = UploadedFile.objects.first()
+        boto_client_mock.return_value.generate_presigned_post.assert_called_with(
+            'AWS_BUCKET_NAME',
+            str(new_file.id),
+            Conditions=[{'acl': 'private'}, ['content-length-range', 1, 10485760]],
+            ExpiresIn=300,
+            Fields={}
+        )
+        self.assertEqual(new_file.get_upload_form(), response.data['upload_form'])
+
+    @patch('boto3.client')
+    def test_complete_url_with_invalid_acl_data(self, boto_client_mock):
+        acl_type = {'acl': 'invalid-acl-type'}
+        boto_client_mock.return_value.generate_presigned_url.return_value = "https://cat.com/b/a/"
+        boto_client_mock.return_value.generate_presigned_post.return_value = "https://cat.com/b/a/"
+        response = self.api_client.post(reverse('s3_file_uploads:upload-file-create'), data=acl_type)
+        self.assertEqual(
+            response.data,
+            {'acl': [ErrorDetail(string='"invalid-acl-type" is not a valid choice.', code='invalid_choice')]}
+        )
 
     @patch('boto3.client')
     def test_complete_url(self, boto_client_mock):
