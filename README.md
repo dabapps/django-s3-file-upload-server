@@ -64,7 +64,7 @@ Hitting these endpoints will `create`, `update` and `retrieve` instances of `Upl
 
 **Please note that meta data can optionally be passed in at the initial post request, such as `file_key` and `filename` and the `acl` type which will define the access control in S3.**
 
-The possible `acl` fields are (with the default as `private` if none are passed in the request data):
+The possible `acl` types are (with the default as `private` if none are passed in the request data):
 ```
 PRIVATE = 'private'
 PUBLIC_READ = 'public-read'
