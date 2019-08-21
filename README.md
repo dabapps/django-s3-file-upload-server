@@ -62,7 +62,7 @@ This will give you access to
 
 Hitting these endpoints will `create`, `update` and `retrieve` instances of `UploadedFile` under the hood.
 
-**Please note that meta data can optionally be passed in at the initial post request, such as `file_key` and `filename`.**
+**Please note that meta data can optionally be passed in at the initial post request, such as `file_key` and `filename` and the `acl` type which will define the access control in S3.**
 
 For an abstraction of the client side implementation of uploading a file from the browser straight to S3, see [github.com/dabapps/django-s3-file-upload-client](https://github.com/dabapps/django-s3-file-upload-client)
 
