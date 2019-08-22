@@ -65,7 +65,7 @@ class UploadedFileTestCase(BaseTestCase):
             str(new_file.id),
             Conditions=[acl_type, ['content-length-range', 1, 10485760]],
             ExpiresIn=300,
-            Fields={}
+            Fields={'acl': 'public-read'},
         )
         self.assertEqual(new_file.get_upload_form(), response.data['upload_form'])
 
@@ -80,7 +80,7 @@ class UploadedFileTestCase(BaseTestCase):
             str(new_file.id),
             Conditions=[{'acl': 'private'}, ['content-length-range', 1, 10485760]],
             ExpiresIn=300,
-            Fields={}
+            Fields={'acl': 'private'},
         )
         self.assertEqual(new_file.get_upload_form(), response.data['upload_form'])
 
