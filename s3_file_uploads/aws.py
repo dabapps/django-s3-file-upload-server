@@ -22,7 +22,7 @@ class S3AssetHandler:
         return self.s3.generate_presigned_post(
             settings.AWS_BUCKET_NAME,
             self.id,
-            Fields={},
+            Fields={'acl': acl_type},
             Conditions=[
                 {'acl': acl_type},
                 ["content-length-range", 1, settings.MAX_FILE_UPLOAD_SIZE],
