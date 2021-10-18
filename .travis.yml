@@ -2,7 +2,7 @@ language: python
 sudo: required
 dist: xenial
 python:
-  - '3.10'
+  - "3.9"
 env:
   - DJANGO_VERSION=">=2.2.0,<2.3"
   - DJANGO_VERSION=">=3.0.0,<3.2.8"
