@@ -3,7 +3,6 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from django.urls import reverse
 from django_fsm import FSMField, transition, ConcurrentTransitionMixin
-from model_utils import Choices
 
 from s3_file_uploads.aws import S3AssetHandler
 
@@ -12,11 +11,14 @@ USER_MODEL = get_user_model()
 
 
 class UploadedFile(ConcurrentTransitionMixin, models.Model):
-    UPLOAD_STATES = Choices(
-        ('NEW', 'New'),
-        ('AWAIT_COMPLETE', 'Awaiting Completion'),
-        ('COMPLETED', 'Completed')
-    )
+    NEW = 'NEW'
+    AWAIT_COMPLETE = 'AWAIT_COMPLETE'
+    COMPLETED = 'COMPLETED'
+    UPLOAD_STATES = [
+        (NEW, 'New'),
+        (AWAIT_COMPLETE, 'Awaiting Completion'),
+        (COMPLETED, 'Completed'),
+    ]
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     created = models.DateTimeField(auto_now_add=True, db_index=True)
@@ -24,7 +26,7 @@ class UploadedFile(ConcurrentTransitionMixin, models.Model):
 
     file_key = models.CharField(max_length=255, blank=True)
     filename = models.CharField(max_length=255, blank=True)
-    file_upload_state = FSMField(default=UPLOAD_STATES.NEW)
+    file_upload_state = FSMField(default=NEW)
 
     user = models.ForeignKey(
         USER_MODEL,
@@ -52,7 +54,7 @@ class UploadedFile(ConcurrentTransitionMixin, models.Model):
         self.save()
         return form
 
-    @transition(field=file_upload_state, source=[UPLOAD_STATES.NEW, UPLOAD_STATES.AWAIT_COMPLETE], target=UPLOAD_STATES.AWAIT_COMPLETE)
+    @transition(field=file_upload_state, source=[NEW, AWAIT_COMPLETE], target=AWAIT_COMPLETE)
     def trans_get_upload_form(self, *args, **kwargs) -> dict:
         return self.asset_handler.get_upload_form(*args, **kwargs)
 
@@ -60,11 +62,11 @@ class UploadedFile(ConcurrentTransitionMixin, models.Model):
         self.trans_completed_upload()
         self.save()
 
-    @transition(field=file_upload_state, source=UPLOAD_STATES.AWAIT_COMPLETE, target=UPLOAD_STATES.COMPLETED)
+    @transition(field=file_upload_state, source=AWAIT_COMPLETE, target=COMPLETED)
     def trans_completed_upload(self) -> None:
         pass
 
-    @transition(field=file_upload_state, source=[UPLOAD_STATES.NEW, UPLOAD_STATES.COMPLETED], target=UPLOAD_STATES.AWAIT_COMPLETE)
+    @transition(field=file_upload_state, source=[NEW, COMPLETED], target=AWAIT_COMPLETE)
     def permit_reupload(self) -> None:
         # by default we don't allow re-uploading, but you can explicitly call
         # this to allow it. Useful for when something invalid was uploaded and

@@ -38,11 +38,11 @@ class UploadedFileUploadCompleteView(views.APIView):
         uploaded_file = get_object_or_404(
             UploadedFile,
             id=file_id,
-            file_upload_state=UploadedFile.UPLOAD_STATES.AWAIT_COMPLETE
+            file_upload_state=UploadedFile.AWAIT_COMPLETE
         )
         uploaded_file.completed_upload()
         return Response({
-            'status': UploadedFile.UPLOAD_STATES.COMPLETED
+            'status': UploadedFile.COMPLETED
         })
 
 
