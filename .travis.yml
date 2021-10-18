@@ -4,8 +4,8 @@ dist: xenial
 python:
   - '3.7'
 env:
-  - DJANGO_VERSION=">=1.11.17,<2.0"
   - DJANGO_VERSION=">=2.2.0,<2.3"
+  - DJANGO_VERSION=">=3.0.0,<3.2.8"
 install:
   - pip install -r tests/requirements.txt
   - pip install -U django$DJANGO_VERSION
