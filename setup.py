@@ -18,7 +18,7 @@ license = 'BSD'
 install_requires = [
     'boto3==1.18.63',
     'Django>=2.2.0',
-    'django-fsm==2.7.1'
+    'django-fsm==2.8.0'
 ]
 long_description_content_type="text/markdown",
 long_description = """
