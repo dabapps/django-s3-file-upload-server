@@ -1,6 +1,6 @@
 Django S3 File Upload Server
 ===================
-[![Build Status](https://travis-ci.com/dabapps/django-s3-file-upload-server.svg?token=k7ApnEQbpXLoWVm5Bc9o&branch=master)](https://travis-ci.com/dabapps/django-s3-file-upload-server)
+![Build Status](https://github.com/dabapps/django-s3-file-upload/workflows/CI/badge.svg)
 [![pypi release](https://img.shields.io/pypi/v/django-s3-file-upload.svg)](https://pypi.python.org/pypi/django-s3-file-upload)
 
 Upload files from the browser to S3 - server side implementation
