@@ -16,9 +16,9 @@ author = 'DabApps'
 author_email = 'engineering@dabapps.com'
 license = 'BSD'
 install_requires = [
-    'boto3==1.9.129',
-    'Django>=1.11',
-    'django-fsm==2.6.0'
+    'boto3==1.18.63',
+    'Django>=3.2',
+    'django-fsm==2.8.0'
 ]
 long_description_content_type="text/markdown",
 long_description = """

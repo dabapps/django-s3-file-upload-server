@@ -101,11 +101,11 @@ class UploadedFileTestCase(BaseTestCase):
         boto_client_mock.return_value.generate_presigned_post.return_value = "https://cat.com/b/a/"
         response = self.api_client.post(reverse('s3_file_uploads:upload-file-create'))
         new_file = UploadedFile.objects.first()
-        self.assertEqual(new_file.file_upload_state, UploadedFile.UPLOAD_STATES.AWAIT_COMPLETE)
+        self.assertEqual(new_file.file_upload_state, UploadedFile.AWAIT_COMPLETE)
         response = self.api_client.post(response.data['complete_url'])
         self.assertEqual(response.status_code, 200)
         new_file.refresh_from_db()
-        self.assertEqual(new_file.file_upload_state, UploadedFile.UPLOAD_STATES.COMPLETED)
+        self.assertEqual(new_file.file_upload_state, UploadedFile.COMPLETED)
 
 
 class UploadedFileUploadCompleteViewTestCase(BaseTestCase):
@@ -113,7 +113,7 @@ class UploadedFileUploadCompleteViewTestCase(BaseTestCase):
         super().setUp()
         self.uploaded_file = mommy.make(
             UploadedFile,
-            file_upload_state=UploadedFile.UPLOAD_STATES.AWAIT_COMPLETE
+            file_upload_state=UploadedFile.AWAIT_COMPLETE
         )
 
     def test_completes(self):
@@ -121,17 +121,17 @@ class UploadedFileUploadCompleteViewTestCase(BaseTestCase):
             'file_id': str(self.uploaded_file.id)
         }))
         self.uploaded_file.refresh_from_db()
-        self.assertEqual(self.uploaded_file.file_upload_state, UploadedFile.UPLOAD_STATES.COMPLETED)
+        self.assertEqual(self.uploaded_file.file_upload_state, UploadedFile.COMPLETED)
 
     def test_cant_complete_in_wrong_state(self):
-        self.uploaded_file.file_upload_state = UploadedFile.UPLOAD_STATES.COMPLETED
+        self.uploaded_file.file_upload_state = UploadedFile.COMPLETED
         self.uploaded_file.save()
         response = self.api_client.post(reverse('s3_file_uploads:upload-file-complete', kwargs={
             'file_id': str(self.uploaded_file.id)
         }))
         self.assertEqual(response.status_code, 404)
 
-        self.uploaded_file.file_upload_state = UploadedFile.UPLOAD_STATES.NEW
+        self.uploaded_file.file_upload_state = UploadedFile.NEW
         self.uploaded_file.save()
         response = self.api_client.post(reverse('s3_file_uploads:upload-file-complete', kwargs={
             'file_id': str(self.uploaded_file.id)
@@ -144,7 +144,7 @@ class UploadedFileFetchViewTestCase(BaseTestCase):
         super().setUp()
         self.uploaded_file = mommy.make(
             UploadedFile,
-            file_upload_state=UploadedFile.UPLOAD_STATES.COMPLETED,
+            file_upload_state=UploadedFile.COMPLETED,
             file_key='file key',
             filename='foo.pdf'
         )
@@ -165,7 +165,7 @@ class UploadedFilePrimaryKeyRelatedFieldTestCase(BaseTestCase):
         self.in_valid_user = mommy.make(User)
         self.uploaded_file = mommy.make(
             UploadedFile,
-            file_upload_state=UploadedFile.UPLOAD_STATES.COMPLETED,
+            file_upload_state=UploadedFile.COMPLETED,
             file_key='file key',
             filename='foo.pdf',
             user=self.valid_user
