@@ -1,3 +1,3 @@
 boto3==1.18.63
-Django==3.2.8
+Django==3.2.20
 django-fsm==2.8.0
