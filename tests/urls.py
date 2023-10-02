@@ -1,6 +1,7 @@
-from django.conf.urls import include, url
+from django.conf.urls import include
+from django.urls import re_path
 
 
 urlpatterns = [
-    url(r'^s3-file-uploads/', view=include('s3_file_uploads.urls')),
+    re_path(r'^s3-file-uploads/', view=include('s3_file_uploads.urls')),
 ]
